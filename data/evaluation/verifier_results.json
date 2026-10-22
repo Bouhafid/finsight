@@ -1,0 +1,23 @@
+[
+  {
+    "claim": "Apple faces significant risks of supply shortages and price increases.",
+    "expected": "SUPPORTED",
+    "predicted": "INSUFFICIENT",
+    "correct": false,
+    "reason": "The evidence does not directly support the claim about supply shortages and price increases, but rather discusses design and manufacturing defects. There is insufficient evidence to support the claim about supply risks and price increases."
+  },
+  {
+    "claim": "Apple faces no risks of supply shortages or price increases.",
+    "expected": "CONTRADICTED",
+    "predicted": "CONTRADICTED",
+    "correct": true,
+    "reason": "The evidence explicitly states that Apple faces significant risks of supply shortages and price increases, which contradicts the claim that Apple faces no risks of supply shortages or price increases."
+  },
+  {
+    "claim": "Apple's European Vision Pro revenue was exactly 12 billion dollars in 2025.",
+    "expected": "INSUFFICIENT",
+    "predicted": "INSUFFICIENT",
+    "correct": true,
+    "reason": "The evidence does not provide any information about Apple's European Vision Pro revenue in 2025."
+  }
+]
