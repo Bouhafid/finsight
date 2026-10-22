@@ -16,7 +16,10 @@ def get_llm():
                 "http://localhost:11434/v1/"
             ),
             api_key="ollama",
-            timeout=180.0
+            # Qwen sur CPU est lent : delai configurable.
+            # Les relances sont gerees par nos scripts.
+            timeout=float(os.getenv("LLM_TIMEOUT", "600")),
+            max_retries=0
         )
 
         model = os.getenv(

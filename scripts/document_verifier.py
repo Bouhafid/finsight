@@ -6,7 +6,7 @@ import unicodedata
 
 import psycopg
 from dotenv import load_dotenv
-from openai import APIError
+from openai import APIError, APITimeoutError
 from pathlib import Path
 
 from llm_client import get_llm
@@ -149,7 +149,7 @@ def validate_result(result, evidence):
             "Le JSON ne contient pas atomic_claims"
         )
 
-    if not 1 <= len(claims) <= 8:
+    if not 1 <= len(claims) <= 4:
         raise ValueError(
             "Nombre de propositions incorrect"
         )
@@ -257,7 +257,11 @@ Respond with ONLY JSON using this schema:
   ]
 }
 
-Use no more than 8 atomic claims.
+Keep the output short:
+- Use no more than 4 atomic claims.
+- Each quote is the shortest exact passage proving
+  the proposition, at most 40 words.
+- Each reason is one short sentence.
 INSUFFICIENT may have an empty evidence array.
 Use the original statement's language.
 """
@@ -286,7 +290,15 @@ Use the original statement's language.
                 messages=messages,
                 response_format={"type": "json_object"},
                 temperature=0,
-                max_tokens=1600
+                max_tokens=900
+            )
+
+        except APITimeoutError:
+            # Relancer la meme requete reprendrait
+            # autant de temps : on abandonne.
+            raise RuntimeError(
+                "Verification documentaire impossible : "
+                "delai LLM depasse"
             )
 
         except APIError as exc:
@@ -299,6 +311,26 @@ Use the original statement's language.
             continue
 
         raw = response.choices[0].message.content or ""
+
+        if response.choices[0].finish_reason == "length":
+            # JSON coupe par max_tokens. On ne renvoie pas
+            # le texte tronque : il remplirait le contexte
+            # (4096 tokens) sans aider Qwen.
+            print(
+                f"Tentative {attempt + 1} : "
+                "sortie trop longue, coupee"
+            )
+
+            messages.append({
+                "role": "user",
+                "content": (
+                    "Your previous answer was too long and "
+                    "was cut off. Answer again with at most "
+                    "2 atomic claims, quotes under 25 words "
+                    "and one-sentence reasons."
+                )
+            })
+            continue
 
         try:
             parsed = json.loads(raw)

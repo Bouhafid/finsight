@@ -8,6 +8,7 @@ import psycopg
 from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
 
+from document_verifier import verify_claim
 from llm_client import get_llm
 from numeric_verifier import (
     build_numeric_claims,
@@ -517,6 +518,52 @@ Rules:
     return fallback
 
 
+def verify_document_claims(claims):
+    """
+    Ne conserver que les affirmations dont chaque
+    proposition atomique est SUPPORTED avec une
+    citation exacte. Les sources sans citation
+    sont retirees des references.
+    """
+
+    verified = []
+
+    for claim in claims:
+        try:
+            atomic, _ = verify_claim(
+                claim["text"],
+                claim["source_ids"]
+            )
+        except (RuntimeError, ValueError) as error:
+            print(f"Verification impossible : {error}")
+            continue
+
+        verdicts = [item["verdict"] for item in atomic]
+
+        if any(v != "SUPPORTED" for v in verdicts):
+            print(
+                f"Affirmation ecartee {verdicts} : "
+                f"{claim['text'][:100]}"
+            )
+            continue
+
+        proofs = [
+            proof
+            for item in atomic
+            for proof in item["evidence"]
+        ]
+
+        verified.append({
+            "text": claim["text"],
+            "source_ids": list(dict.fromkeys(
+                proof["source_id"] for proof in proofs
+            )),
+            "quotes": proofs,
+        })
+
+    return verified
+
+
 def main():
     parser = argparse.ArgumentParser()
 
@@ -609,6 +656,16 @@ def main():
             "ecartee(s) du rapport final."
         )
 
+    print("\n5. Verification documentaire des affirmations...")
+
+    checked = len(document_claims)
+    document_claims = verify_document_claims(document_claims)
+
+    print(
+        f"{len(document_claims)}/{checked} affirmation(s) "
+        "documentaire(s) confirmee(s) par citation exacte.\n"
+    )
+
     print(
         "Les chiffres sont issus exclusivement "
         "des calculs Python/XBRL."
@@ -625,6 +682,12 @@ def main():
         )
 
         print(f"- {claim['text']} {citations}")
+
+        for proof in claim.get("quotes", []):
+            print(
+                f'    > "{proof["quote"]}" '
+                f'[{proof["source_id"]}]'
+            )
 
     print("\n========== SOURCES ==========\n")
 
@@ -648,8 +711,9 @@ def main():
         print()
 
     print(
-        "Note : references controlees, "
-        "mais fidelite semantique non encore garantie."
+        "Note : citations verifiees textuellement ; "
+        "les verdicts du LLM restent a evaluer "
+        "sur le benchmark."
     )
 
 
