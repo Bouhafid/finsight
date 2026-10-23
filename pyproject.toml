@@ -25,6 +25,7 @@ dev = ["httpx>=0.27", "pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
 finsight = "finsight.cli:main"
+finsight-eval = "finsight.evaluation:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

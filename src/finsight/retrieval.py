@@ -44,10 +44,14 @@ def _model():
     return SentenceTransformer(EMBEDDING_MODEL, device="cpu")
 
 
+def encode_query(text: str):
+    """Embed a question as a normalized numpy vector."""
+    return _model().encode(text, normalize_embeddings=True)
+
+
 def embed_query(text: str) -> str:
     """Embed a question as a pgvector literal."""
-    embedding = _model().encode(text, normalize_embeddings=True)
-    return "[" + ",".join(str(float(x)) for x in embedding) + "]"
+    return "[" + ",".join(str(float(x)) for x in encode_query(text)) + "]"
 
 
 def retrieve_documents(conn, question: str, years, top_k: int) -> list[Source]:

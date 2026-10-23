@@ -212,6 +212,11 @@ def verify_claim(claim: str, evidence: dict[str, Source], llm: LLM | None = None
     raise VerificationError("no valid verification after 3 attempts")
 
 
+def is_supported(propositions: list[dict]) -> bool:
+    """A claim is kept only when every one of its propositions is SUPPORTED."""
+    return all(item["verdict"] == "SUPPORTED" for item in propositions)
+
+
 def verify_document_claims(
     claims: list[Claim], documents: dict[str, Source], llm: LLM | None = None
 ) -> list[Claim]:
@@ -228,8 +233,8 @@ def verify_document_claims(
             log.warning("Could not verify claim: %s", error)
             return None
 
-        verdicts = [item["verdict"] for item in propositions]
-        if any(verdict != "SUPPORTED" for verdict in verdicts):
+        if not is_supported(propositions):
+            verdicts = [item["verdict"] for item in propositions]
             log.info("Claim rejected %s: %s", verdicts, claim.text[:100])
             return None
 
