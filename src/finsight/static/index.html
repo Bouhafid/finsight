@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FinSight</title>
+<meta name="description" content="Evidence-grounded answers on Apple's 10-K filings.">
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #ffffff; --text: #1c1d1f; --muted: #66686d;
+    --line: #e3e3df; --accent: #1f5f4a; --accent-soft: #e5f0eb;
+    --warn: #8a5a00; --warn-soft: #fbf1dc; --error: #a1261d; --error-soft: #fbe7e5;
+    --quote: #f2f2ee; --radius: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141516; --panel: #1c1d1f; --text: #ececea; --muted: #9a9ca1;
+      --line: #2e3033; --accent: #6cc3a2; --accent-soft: #1d3029;
+      --warn: #e5b45c; --warn-soft: #2f2716; --error: #f08a80; --error-soft: #34201e;
+      --quote: #242628;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 820px; margin: 0 auto; padding: 40px 16px 64px; }
+  header h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
+  header h1 span { color: var(--accent); }
+  header p { margin: 6px 0 28px; color: var(--muted); }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  form textarea {
+    width: 100%; min-height: 76px; resize: vertical; padding: 12px; font: inherit; color: inherit;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+  }
+  form textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .years { display: flex; gap: 6px; flex-wrap: wrap; }
+  .years label {
+    border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer;
+    font-size: 14px; user-select: none;
+  }
+  .years input { display: none; }
+  .years label:has(input:checked) { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  button.primary {
+    background: var(--accent); color: var(--panel); border: 0; border-radius: 8px;
+    padding: 10px 20px; font: inherit; font-weight: 600; cursor: pointer;
+  }
+  button.primary:disabled { opacity: 0.5; cursor: wait; }
+  .examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .examples button {
+    background: none; border: 1px dashed var(--line); color: var(--muted); border-radius: 999px;
+    padding: 4px 12px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .examples button:hover { color: var(--text); border-color: var(--muted); }
+  #status { margin: 24px 0 0; color: var(--muted); font-size: 15px; min-height: 1em; }
+  #status.error { color: var(--error); background: var(--error-soft); padding: 12px 16px; border-radius: 8px; }
+  .spinner {
+    display: inline-block; width: 12px; height: 12px; margin-right: 8px; vertical-align: -1px;
+    border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  section { margin-top: 28px; }
+  section h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 10px; }
+  section h2 small { text-transform: none; letter-spacing: 0; font-weight: 400; }
+  .warning { background: var(--warn-soft); color: var(--warn); padding: 12px 16px; border-radius: 8px; margin-top: 12px; }
+  ul.claims { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  ul.claims li { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+  blockquote {
+    margin: 10px 0 0; padding: 8px 12px; background: var(--quote); border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0; font-size: 14px; color: var(--muted);
+  }
+  a.ref {
+    display: inline-block; font: 12px ui-monospace, SFMono-Regular, Consolas, monospace;
+    color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 1px 6px;
+    margin: 0 2px; text-decoration: none; white-space: nowrap;
+  }
+  .stats { font-size: 14px; color: var(--muted); }
+  details.sources summary { cursor: pointer; color: var(--muted); }
+  .source { padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; overflow-wrap: anywhere; }
+  .source:target { background: var(--accent-soft); }
+  .source code { font-size: 12px; color: var(--accent); }
+  .source a { color: var(--muted); }
+  .how ol { padding-left: 20px; color: var(--muted); font-size: 15px; }
+  .how b { color: var(--text); font-weight: 600; }
+  footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Fin<span>Sight</span></h1>
+    <p>Ask questions about Apple's 10-K filings. Every figure comes from SEC XBRL data, and every sentence is backed by a verbatim quote.</p>
+  </header>
+
+  <form class="panel" id="ask">
+    <textarea id="question" name="question" maxlength="500" required
+      placeholder="What are Apple's main supply chain risks?"></textarea>
+    <div class="controls">
+      <div class="years" id="years"></div>
+      <button class="primary" id="submit" type="submit">Ask</button>
+    </div>
+    <div class="examples" id="examples"></div>
+  </form>
+
+  <p id="status" role="status" aria-live="polite"></p>
+  <div id="result"></div>
+
+  <section class="how">
+    <h2>How it works</h2>
+    <ol>
+      <li><b>Figures</b>: revenue, income and assets come from Apple's XBRL filings; margins and growth are computed in Python. No language model writes a number.</li>
+      <li><b>Retrieval</b>: the question is embedded and matched against 10-K passages in Postgres with pgvector.</li>
+      <li><b>Generation</b>: the model writes short claims that must cite the retrieved passages. Claims with figures are discarded.</li>
+      <li><b>Verification</b>: each claim is split into atomic statements. A claim is kept only when every statement is supported by a quote found word for word in the cited passage.</li>
+    </ol>
+  </section>
+
+  <footer>
+    Data: SEC EDGAR, Apple 10-K filings FY2023 to FY2025. Not investment advice.
+    · <a href="/docs">API documentation</a>
+  </footer>
+</main>
+
+<script>
+const YEARS = [2023, 2024, 2025];
+const EXAMPLES = [
+  "What are Apple's main supply chain risks?",
+  "How does Apple describe competition in its markets?",
+  "What does Apple say about its Services business?",
+  "Quels risques réglementaires Apple mentionne-t-il ?",
+];
+const STEPS = [
+  "Loading XBRL figures…",
+  "Searching 10-K passages…",
+  "Generating cited claims…",
+  "Verifying quotes word for word…",
+];
+
+const $ = (id) => document.getElementById(id);
+const escape = (text) => String(text ?? "").replace(/[&<>"']/g,
+  (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const refs = (ids) => ids.map((id) => `<a class="ref" href="#src-${escape(id)}">${escape(id)}</a>`).join("");
+
+$("years").innerHTML = YEARS.map((year) =>
+  `<label><input type="checkbox" value="${year}" checked>FY${year}</label>`).join("");
+
+$("examples").innerHTML = EXAMPLES.map((text) =>
+  `<button type="button">${escape(text)}</button>`).join("");
+$("examples").addEventListener("click", (event) => {
+  if (event.target.tagName !== "BUTTON") return;
+  $("question").value = event.target.textContent;
+  $("ask").requestSubmit();
+});
+
+$("question").addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    $("ask").requestSubmit();
+  }
+});
+
+$("ask").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const question = $("question").value.trim();
+  const years = [...document.querySelectorAll("#years input:checked")].map((box) => Number(box.value));
+  if (question.length < 3) return showError("Please type a longer question.");
+  if (!years.length) return showError("Select at least one fiscal year.");
+
+  $("submit").disabled = true;
+  $("result").innerHTML = "";
+  let step = 0;
+  const progress = () => {
+    $("status").className = "";
+    $("status").innerHTML = `<span class="spinner"></span>${STEPS[Math.min(step++, STEPS.length - 1)]}`;
+  };
+  progress();
+  const timer = setInterval(progress, 2500);
+
+  try {
+    const response = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, years }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(typeof data.detail === "string" ? data.detail : "Invalid request.");
+    $("status").textContent = "";
+    render(data);
+  } catch (error) {
+    showError(error.message || "Something went wrong.");
+  } finally {
+    clearInterval(timer);
+    $("submit").disabled = false;
+  }
+});
+
+function showError(message) {
+  $("status").className = "error";
+  $("status").textContent = message;
+}
+
+function render(answer) {
+  const { stats } = answer;
+  const cited = new Set([...answer.numeric_claims, ...answer.document_claims].flatMap((c) => c.source_ids));
+  const rejected = stats.rejected_numeric + stats.rejected_unverified;
+
+  const disclosures = answer.document_claims.length
+    ? answer.document_claims.map((claim) => `
+        <li>${escape(claim.text)} ${refs(claim.source_ids)}
+          ${claim.quotes.map((q) => `<blockquote>“${escape(q.quote)}” ${refs([q.source_id])}</blockquote>`).join("")}
+        </li>`).join("")
+    : `<li>No statement could be verified against the filings for this question.</li>`;
+
+  const sources = [...cited].sort().map((id) => {
+    const source = answer.sources[id];
+    const link = source.url ? `<br><a href="${escape(source.url)}" target="_blank" rel="noopener">${escape(source.url)}</a>` : "";
+    const base = source.dependencies.length ? `<br>Computed from ${source.dependencies.map(escape).join(", ")}` : "";
+    return `<div class="source" id="src-${escape(id)}"><code>${escape(id)}</code> ${escape(source.label)}${base}${link}</div>`;
+  }).join("");
+
+  $("result").innerHTML = `
+    ${answer.warnings.map((w) => `<div class="warning">${escape(w)}</div>`).join("")}
+    <section>
+      <h2>Figures <small>· computed from XBRL, no language model</small></h2>
+      <ul class="claims">${answer.numeric_claims.map((c) => `<li>${escape(c.text)} ${refs(c.source_ids)}</li>`).join("")}</ul>
+    </section>
+    <section>
+      <h2>Disclosures <small>· verified by verbatim quotes</small></h2>
+      <ul class="claims">${disclosures}</ul>
+      <p class="stats">${stats.generated} claim(s) generated · ${answer.document_claims.length} verified · ${rejected} discarded
+        (${stats.rejected_numeric} contained figures, ${stats.rejected_unverified} not supported by a quote)</p>
+    </section>
+    <section>
+      <details class="sources" open>
+        <summary>${cited.size} sources</summary>
+        ${sources}
+      </details>
+    </section>`;
+}
+</script>
+</body>
+</html>
