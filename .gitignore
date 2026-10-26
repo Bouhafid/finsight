@@ -8,3 +8,5 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 .ruff_cache/
+eval/results/*.partial.jsonl
+build/

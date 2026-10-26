@@ -8,7 +8,15 @@ from finsight.config import ROOT
 from finsight.evaluation import load_chunks
 from finsight.generation import FISCAL_YEAR, NUMERIC_PATTERN
 from finsight.models import Source
-from finsight.verifier_eval import EvalClaim, check_claim, find_source, load_claims, score
+from finsight.verifier_eval import (
+    EvalClaim,
+    check_claim,
+    evaluate_verifier,
+    find_source,
+    load_claims,
+    load_partial,
+    score,
+)
 
 CLAIMS = load_claims()
 HAS_CHUNKS = (ROOT / "data" / "processed" / "apple").exists()
@@ -71,6 +79,32 @@ def test_invented_quote_is_rejected_even_if_the_model_says_supported():
     row = check_claim(_claim("reject"), _source(), FakeLLM(fake, fake, fake))
     assert not row["accepted"]
     assert row["error"]
+
+
+@pytest.mark.skipif(not HAS_CHUNKS, reason="data/processed is not versioned")
+def test_resumed_run_only_checks_missing_claims():
+    first, second = CLAIMS[:2]
+    saved_row = check_claim(first, _source(), FakeLLM(_verdict("SUPPORTED")))
+    saved = {first.id: saved_row}
+    llm = FakeLLM(_verdict("INSUFFICIENT", quote=None))
+    llm.model = "fake"
+    new_rows = []
+
+    results = evaluate_verifier(
+        [first, second], llm, progress=lambda line: None, done=saved, on_row=new_rows.append
+    )
+
+    assert len(llm.calls) == 1
+    assert [row["id"] for row in new_rows] == [second.id]
+    assert [row["id"] for row in results["claims"]] == [first.id, second.id]
+
+
+def test_load_partial_reads_saved_rows(tmp_path):
+    path = tmp_path / "run.partial.jsonl"
+    assert load_partial(path) == {}
+
+    path.write_text('{"id": "a", "accepted": true}\n\n{"id": "b", "accepted": false}\n')
+    assert set(load_partial(path)) == {"a", "b"}
 
 
 def test_score_counts_false_accepts_and_false_rejects():

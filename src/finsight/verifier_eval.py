@@ -107,16 +107,47 @@ def score(rows: list[dict]) -> dict:
     }
 
 
-def evaluate_verifier(claims: list[EvalClaim], llm: LLM, progress=print) -> dict:
+def evaluate_verifier(
+    claims: list[EvalClaim],
+    llm: LLM,
+    progress=print,
+    done: dict[str, dict] | None = None,
+    on_row=None,
+) -> dict:
+    """Check each claim, skipping those already in `done` (resumed run)."""
     # Sequential on purpose: latency stays comparable between runs and models.
-    chunks = {year: load_chunks(year) for year in {c.year for c in claims}}
+    done = done or {}
+    chunks = {year: load_chunks(year) for year in {c.year for c in claims if c.id not in done}}
     rows = []
+    start, checked = time.perf_counter(), 0
     for i, claim in enumerate(claims, start=1):
+        if claim.id in done:
+            rows.append(done[claim.id])
+            continue
+
         row = check_claim(claim, find_source(claim, chunks[claim.year]), llm)
         rows.append(row)
+        if on_row:
+            on_row(row)
+
+        checked += 1
+        remaining = sum(c.id not in done for c in claims[i:])
+        eta = (time.perf_counter() - start) / checked * remaining / 60
         status = "ok " if row["correct"] else "BAD"
-        progress(f"[{i}/{len(claims)}] {status} {claim.id} {claim.trap:<18} {row['verdicts']}")
+        progress(
+            f"[{i}/{len(claims)}] {status} {claim.id} {claim.trap:<18} {row['verdicts']}"
+            f"  ~{eta:.0f} min left"
+        )
     return {"model": llm.model, "summary": score(rows), "claims": rows}
+
+
+def load_partial(path: Path) -> dict[str, dict]:
+    """Rows saved by an interrupted run, keyed by claim id."""
+    if not path.exists():
+        return {}
+    with path.open(encoding="utf-8") as file:
+        rows = [json.loads(line) for line in file if line.strip()]
+    return {row["id"]: row for row in rows}
 
 
 def print_report(results: dict) -> None:
@@ -138,11 +169,27 @@ def print_report(results: dict) -> None:
 def run(name: str | None, limit: int | None) -> None:
     llm = get_llm()
     claims = load_claims()[:limit]
-    results = evaluate_verifier(claims, llm)
-    print_report(results)
-
     name = name or re.sub(r"[^\w.-]", "-", llm.model)
     RESULTS_DIR.mkdir(exist_ok=True)
     output = RESULTS_DIR / f"verifier_{name}.json"
+
+    # Each checked claim is appended here, so an interrupted run resumes where it stopped.
+    partial = RESULTS_DIR / f"verifier_{name}.partial.jsonl"
+    done = load_partial(partial)
+    if done:
+        print(f"Resuming: {len(done)} claims already checked ({partial.relative_to(ROOT)})")
+
+    with partial.open("a", encoding="utf-8") as file:
+
+        def save(row: dict) -> None:
+            file.write(json.dumps(row, ensure_ascii=False) + "\n")
+            file.flush()
+
+        results = evaluate_verifier(
+            claims, llm, lambda line: print(line, flush=True), done=done, on_row=save
+        )
+
+    print_report(results)
     output.write_text(json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8")
+    partial.unlink()
     print(f"Saved to {output.relative_to(ROOT)}")
