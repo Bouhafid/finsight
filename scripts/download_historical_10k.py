@@ -15,7 +15,7 @@ DATA = ROOT / "data" / "raw" / "apple"
 DATA.mkdir(parents=True, exist_ok=True)
 
 CIK = "0000320193"
-YEARS = [2023, 2024]
+YEARS = [2023, 2024, 2025]
 
 agent = os.getenv("SEC_USER_AGENT")
 
@@ -158,7 +158,7 @@ for year in YEARS:
         "filing_date": filing["filing_date"],
         "accession_number": accession,
         "source_url": url,
-        "local_file": str(output.relative_to(ROOT)),
+        "local_file": output.relative_to(ROOT).as_posix(),
         "sha256": sha256,
     })
 

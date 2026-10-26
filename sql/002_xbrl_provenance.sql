@@ -1,4 +1,4 @@
-﻿ALTER TABLE financial_facts
+ALTER TABLE financial_facts
 ADD COLUMN IF NOT EXISTS xbrl_concept TEXT,
 ADD COLUMN IF NOT EXISTS accession_number TEXT,
 ADD COLUMN IF NOT EXISTS period_start DATE,

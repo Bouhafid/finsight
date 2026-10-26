@@ -12,7 +12,7 @@ OUTPUT.mkdir(parents=True, exist_ok=True)
 FILES = {
     2023: RAW / "10k_2023.html",
     2024: RAW / "10k_2024.html",
-    2025: RAW / "10k_latest.html",
+    2025: RAW / "10k_2025.html",
 }
 
 BLOCK_TAGS = {
@@ -235,31 +235,6 @@ def get_sources():
                 "url": item["source_url"],
                 "accession": item["accession_number"]
             }
-
-    submissions = json.loads(
-        (RAW / "submissions.json").read_text(
-            encoding="utf-8"
-        )
-    )
-
-    recent = submissions["filings"]["recent"]
-
-    for i, form in enumerate(recent["form"]):
-        if (
-            form == "10-K"
-            and recent["reportDate"][i].startswith("2025-")
-        ):
-            accession = recent["accessionNumber"][i]
-
-            sources[2025] = {
-                "url": (
-                    "https://www.sec.gov/Archives/edgar/data/"
-                    f"320193/{accession.replace('-', '')}/"
-                    f"{recent['primaryDocument'][i]}"
-                ),
-                "accession": accession
-            }
-            break
 
     return sources
 

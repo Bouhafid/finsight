@@ -51,36 +51,4 @@ with open(OUTPUT / "companyfacts.json", "w", encoding="utf-8") as f:
     json.dump(companyfacts, f, indent=2)
 
 
-print("3. Recherche du dernier rapport 10-K...")
-
-recent = submissions["filings"]["recent"]
-indices = [
-    i for i, form in enumerate(recent["form"])
-    if form == "10-K"
-]
-
-if not indices:
-    raise RuntimeError("Aucun 10-K dans les depots recents")
-
-i = indices[0]
-
-accession = recent["accessionNumber"][i].replace("-", "")
-document = recent["primaryDocument"][i]
-report_date = recent["reportDate"][i]
-
-url = (
-    f"https://www.sec.gov/Archives/edgar/data/"
-    f"{int(CIK)}/{accession}/{document}"
-)
-
-print("Rapport :", report_date)
-print("URL :", url)
-
-try:
-    html = fetch(url).content
-    (OUTPUT / "10k_latest.html").write_bytes(html)
-    print("Rapport HTML sauvegarde")
-except requests.RequestException as error:
-    print("Erreur telechargement HTML :", error)
-
 print("Termine !")

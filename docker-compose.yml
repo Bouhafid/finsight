@@ -1,8 +1,17 @@
+# docker compose up -d db                 start Postgres (schema from sql/ on first start)
+# docker compose run --rm ingest          load the data once (needs SEC_USER_AGENT in .env)
+# docker compose up -d --build api        API and demo page on http://127.0.0.1:8000
+
+x-database: &database
+  DB_HOST: db
+  DB_PORT: 5432
+  DB_NAME: finsight
+  DB_USER: finsight
+  DB_PASSWORD: local_dev_password
 
 services:
   db:
     image: pgvector/pgvector:pg16
-    container_name: finsight-postgres
     environment:
       POSTGRES_USER: finsight
       POSTGRES_PASSWORD: local_dev_password
@@ -11,6 +20,51 @@ services:
       - "127.0.0.1:5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Applied in file order, only when the volume is empty.
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      # TCP on purpose: during first-start init, Postgres only listens on its socket.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U finsight -d finsight"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  ingest:
+    build:
+      context: .
+      target: ingest
+    profiles: [ingest]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      <<: *database
+      SEC_USER_AGENT: ${SEC_USER_AGENT:-}
+    volumes:
+      - ./data:/app/data
+
+  api:
+    build:
+      context: .
+      target: api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      <<: *database
+      # Values below come from .env when set.
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      # Ollama runs on the host machine, outside the container.
+      OLLAMA_BASE_URL: http://host.docker.internal:11434/v1/
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:3b}
+      AZURE_OPENAI_BASE_URL: ${AZURE_OPENAI_BASE_URL:-}
+      AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
+      AZURE_OPENAI_DEPLOYMENT: ${AZURE_OPENAI_DEPLOYMENT:-}
+      VERIFY_WORKERS: ${VERIFY_WORKERS:-1}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:8000:8000"
 
 volumes:
   postgres_data:

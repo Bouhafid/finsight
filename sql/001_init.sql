@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS vector;
 
 -- Table des rapports financiers
 CREATE TABLE IF NOT EXISTS documents (
