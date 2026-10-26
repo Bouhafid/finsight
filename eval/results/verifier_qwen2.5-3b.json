@@ -1,0 +1,2173 @@
+{
+  "model": "qwen2.5:3b",
+  "summary": {
+    "n": 64,
+    "accuracy": 0.812,
+    "false_accept_rate": 0.059,
+    "false_reject_rate": 0.333,
+    "precision": 0.909,
+    "errors": 18,
+    "mean_seconds": 115.88,
+    "by_trap": {
+      "half_true": {
+        "n": 2,
+        "accuracy": 1.0
+      },
+      "invented_cause": {
+        "n": 4,
+        "accuracy": 1.0
+      },
+      "negation": {
+        "n": 5,
+        "accuracy": 1.0
+      },
+      "out_of_scope": {
+        "n": 2,
+        "accuracy": 1.0
+      },
+      "overgeneralization": {
+        "n": 1,
+        "accuracy": 1.0
+      },
+      "prompt_injection": {
+        "n": 1,
+        "accuracy": 1.0
+      },
+      "risk_as_fact": {
+        "n": 5,
+        "accuracy": 0.6
+      },
+      "true": {
+        "n": 25,
+        "accuracy": 0.68
+      },
+      "true_paraphrase": {
+        "n": 5,
+        "accuracy": 0.6
+      },
+      "wrong_direction": {
+        "n": 6,
+        "accuracy": 1.0
+      },
+      "wrong_entity": {
+        "n": 8,
+        "accuracy": 1.0
+      }
+    }
+  },
+  "claims": [
+    {
+      "id": "c001",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 24.3,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple manages its business primarily on a geographic basis.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "The Company manages its business primarily on a geographic basis."
+            }
+          ],
+          "reason": "Source explicitly states Apple manages its business on a geographic basis."
+        }
+      ]
+    },
+    {
+      "id": "c002",
+      "trap": "true_paraphrase",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 18.2,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple's Europe segment also covers India, the Middle East and Africa.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "Europe includes European countries, as well as India, the Middle East and Africa."
+            }
+          ],
+          "reason": "Source explicitly states Europe includes these regions."
+        }
+      ]
+    },
+    {
+      "id": "c003",
+      "trap": "wrong_entity",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 90.38,
+      "verdicts": [
+        "CONTRADICTED",
+        "SUPPORTED",
+        "CONTRADICTED",
+        "CONTRADICTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple's Greater China segment includes Japan.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "Greater China includes China mainland, Hong Kong and Taiwan."
+            }
+          ],
+          "reason": "The source defines Greater China to include China mainland, Hong Kong and Taiwan, not Japan."
+        },
+        {
+          "statement": "Apple's Europe segment includes Japan.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "Europe includes European countries, as well as India, the Middle East and Africa."
+            }
+          ],
+          "reason": "The source explicitly states Europe includes European countries, India, the Middle East, and Africa."
+        },
+        {
+          "statement": "Apple's Americas segment includes Japan.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "Americas includes both North and South America."
+            }
+          ],
+          "reason": "The source defines Americas to include North and South America, not Japan."
+        },
+        {
+          "statement": "Apple's Rest of Asia Pacific segment includes Japan.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "Rest of Asia Pacific includes Australia, New Zealand and those Asian countries not included in the Company’s other reportable segments."
+            }
+          ],
+          "reason": "The source defines Rest of Asia Pacific to include Australia, New Zealand, and Asian countries not in other segments, not Japan."
+        }
+      ]
+    },
+    {
+      "id": "c004",
+      "trap": "negation",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 79.68,
+      "verdicts": [
+        "CONTRADICTED",
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple manages its business primarily by product line rather than by geography.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "The Company manages its business primarily on a geographic basis."
+            }
+          ],
+          "reason": "Source explicitly states Apple manages its business on a geographic basis."
+        },
+        {
+          "statement": "Apple’s reportable segments consist of the Americas, Europe, Greater China, Japan and Rest of Asia Pacific.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "The Company’s reportable segments consist of the Americas, Europe, Greater China, Japan and Rest of Asia Pacific."
+            }
+          ],
+          "reason": "Source lists the reportable segments as stated."
+        },
+        {
+          "statement": "Americas includes both North and South America.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "Americas includes both North and South America."
+            }
+          ],
+          "reason": "Source explicitly states Americas includes both North and South America."
+        },
+        {
+          "statement": "Europe includes European countries, as well as India, the Middle East and Africa.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00023",
+              "quote": "Europe includes European countries, as well as India, the Middle East and Africa."
+            }
+          ],
+          "reason": "Source explicitly states Europe includes European countries, as well as India, the Middle East and Africa."
+        }
+      ]
+    },
+    {
+      "id": "c005",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 117.2,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c006",
+      "trap": "overgeneralization",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 63.26,
+      "verdicts": [
+        "CONTRADICTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "All components essential to Apple's business are obtained from a single source.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00029",
+              "quote": "Although most components essential to the Company’s business are generally available from multiple sources, certain components are currently obtained from single or limited sources."
+            }
+          ],
+          "reason": "The source states that most components are available from multiple sources, contradicting the claim."
+        },
+        {
+          "statement": "Certain components are obtained from single or limited sources.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00029",
+              "quote": "Although most components essential to the Company’s business are generally available from multiple sources, certain components are currently obtained from single or limited sources."
+            }
+          ],
+          "reason": "The source explicitly states this."
+        },
+        {
+          "statement": "Many components used by Apple are at times subject to industry-wide shortage and significant commodity pricing fluctuations.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00029",
+              "quote": "The Company also competes for various components with other participants in the markets for smartphones, personal computers, tablets, wearables and accessories. Therefore, many components used by the Company, including those that are available from multiple sources, are at times subject to industry-wide shortage and significant commodity pricing fluctuations."
+            }
+          ],
+          "reason": "The source explicitly states this."
+        }
+      ]
+    },
+    {
+      "id": "c007",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 26.73,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Restrictions on international trade can increase the cost or limit the availability of Apple's components.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00029",
+              "quote": "Restrictions on international trade can increase the cost or limit the availability of the Company’s products and the components and rare earths and other raw materials that go into them."
+            }
+          ],
+          "reason": "Directly supports the claim with explicit language."
+        }
+      ]
+    },
+    {
+      "id": "c008",
+      "trap": "risk_as_fact",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 60.61,
+      "verdicts": [
+        "CONTRADICTED",
+        "CONTRADICTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Trade restrictions caused shortages of Apple's components in 2025.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00029",
+              "quote": "Restrictions on international trade can increase the cost or limit the availability of the Company’s products and the components and rare earths and other raw materials that go into them."
+            }
+          ],
+          "reason": "Trade restrictions can cause shortages, but the source does not specify 2025."
+        },
+        {
+          "statement": "Trade restrictions caused significant commodity pricing fluctuations in 2025.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00029",
+              "quote": "Restrictions on international trade can increase the cost or limit the availability of the Company’s products and the components and rare earths and other raw materials that go into them."
+            }
+          ],
+          "reason": "Trade restrictions can cause cost or availability issues, but not necessarily significant pricing fluctuations."
+        },
+        {
+          "statement": "Apple faced shortages of components in 2025.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00029",
+              "quote": "Although most components essential to the Company’s business are generally available from multiple sources, certain components are currently obtained from single or limited sources."
+            }
+          ],
+          "reason": "The source confirms shortages of certain components."
+        }
+      ]
+    },
+    {
+      "id": "c009",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": null,
+      "seconds": 51.54,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "INSUFFICIENT"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple has historically had higher net sales in its first fiscal quarter",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00035",
+              "quote": "The Company has historically experienced higher net sales in its first quarter compared to other quarters in its fiscal year due in part to seasonal holiday demand."
+            }
+          ],
+          "reason": "Source explicitly states historical pattern of higher net sales in first quarter."
+        },
+        {
+          "statement": "partly due to seasonal holiday demand",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00035",
+              "quote": "The Company has historically experienced higher net sales in its first quarter compared to other quarters in its fiscal year due in part to seasonal holiday demand."
+            }
+          ],
+          "reason": "Source explicitly mentions seasonal holiday demand as a part of the reason for higher net sales in the first quarter."
+        },
+        {
+          "statement": "new product and service introductions can significantly impact net sales",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "Source does not provide information about the impact of new product and service introductions on net sales."
+        }
+      ]
+    },
+    {
+      "id": "c010",
+      "trap": "wrong_entity",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 169.09,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c011",
+      "trap": "invented_cause",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 66.35,
+      "verdicts": [
+        "CONTRADICTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple's first-quarter net sales are higher mainly because of back-to-school promotions.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00035",
+              "quote": "The Company has historically experienced higher net sales in its first quarter compared to other quarters in its fiscal year due in part to seasonal holiday demand."
+            }
+          ],
+          "reason": "Source mentions seasonal holiday demand, not back-to-school promotions."
+        },
+        {
+          "statement": "The timing of product introductions can also impact the Company’s net sales to its indirect distribution channels.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00035",
+              "quote": "Net sales can also be affected when consumers and distributors anticipate a product introduction."
+            }
+          ],
+          "reason": "Source explicitly mentions anticipation of product introductions."
+        },
+        {
+          "statement": "New product and service introductions can significantly impact net sales.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00035",
+              "quote": "Additionally, new product and service introductions can significantly impact net sales, cost of sales and operating expenses."
+            }
+          ],
+          "reason": "Source explicitly states new product introductions impact net sales."
+        }
+      ]
+    },
+    {
+      "id": "c012",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 211.57,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c013",
+      "trap": "wrong_entity",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 257.8,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c014",
+      "trap": "true_paraphrase",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 53.09,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Outsourcing reduces Apple's direct control over production and distribution.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00065",
+              "quote": "The Company relies on single-source partners in the U.S., Asia and Europe to supply and manufacture many components, and on partners primarily located in Asia, for final assembly of substantially all of the Company’s hardware products. The Company has also outsourced much of its transportation and logistics management."
+            }
+          ],
+          "reason": "Quotes directly support the claim about reduced control over production and distribution."
+        }
+      ]
+    },
+    {
+      "id": "c015",
+      "trap": "half_true",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 91.54,
+      "verdicts": [
+        "SUPPORTED",
+        "INSUFFICIENT",
+        "SUPPORTED",
+        "INSUFFICIENT"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple has outsourced much of its transportation and logistics management",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00065",
+              "quote": "The Company has also outsourced much of its transportation and logistics management."
+            }
+          ],
+          "reason": "Source explicitly states outsourcing of transportation and logistics management."
+        },
+        {
+          "statement": "This has eliminated its supply risks",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "Source does not mention elimination of supply risks."
+        },
+        {
+          "statement": "It has reduced the Company’s direct control over production and distribution",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00065",
+              "quote": "While these arrangements can lower operating costs, they also reduce the Company’s direct control over production and distribution."
+            }
+          ],
+          "reason": "Source explicitly states reduced direct control over production and distribution."
+        },
+        {
+          "statement": "It has had an adverse effect on the Company’s products and services",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "Source does not specify the nature of the adverse effect."
+        }
+      ]
+    },
+    {
+      "id": "c016",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 278.81,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c017",
+      "trap": "risk_as_fact",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": true,
+      "correct": false,
+      "error": null,
+      "seconds": 95.26,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple's artificial intelligence features can expose users to harmful content.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00071",
+              "quote": "The introduction of new and complex technologies, such as artificial intelligence features, can increase these and other safety risks, including exposing users to harmful, inaccurate or other negative content and experiences."
+            }
+          ],
+          "reason": "Source explicitly states AI features can expose users to harmful content."
+        },
+        {
+          "statement": "The statement refers to 2025.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00071",
+              "quote": "The introduction of new and complex technologies, such as artificial intelligence features, can increase these and other safety risks, including exposing users to harmful, inaccurate or other negative content and experiences."
+            }
+          ],
+          "reason": "Source mentions the introduction of new technologies in 2025."
+        },
+        {
+          "statement": "The statement is about a risk disclosure.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00071",
+              "quote": "The introduction of new and complex technologies, such as artificial intelligence features, can increase these and other safety risks, including exposing users to harmful, inaccurate or other negative content and experiences."
+            }
+          ],
+          "reason": "Source discusses risks associated with new technologies."
+        }
+      ]
+    },
+    {
+      "id": "c018",
+      "trap": "negation",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 276.6,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c019",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 56.52,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple is at a relatively greater risk of being targeted by malicious attacks because of its high profile.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00090",
+              "quote": "Although malicious attacks perpetrated to gain access to confidential information, including personal information, affect many companies across various industries, the Company is at a relatively greater risk of being targeted because of its high profile and the value of the confidential information it creates, owns, manages, stores and processes."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        }
+      ]
+    },
+    {
+      "id": "c020",
+      "trap": "risk_as_fact",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": true,
+      "correct": false,
+      "error": null,
+      "seconds": 115.97,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple is at a relatively greater risk of being targeted because of its high profile and the value of the confidential information it creates, owns, manages, stores and processes.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00090",
+              "quote": "Although malicious attacks perpetrated to gain access to confidential information, including personal information, affect many companies across various industries, the Company is at a relatively greater risk of being targeted because of its high profile and the value of the confidential information it creates, owns, manages, stores and processes."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        }
+      ]
+    },
+    {
+      "id": "c021",
+      "trap": "negation",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 116.79,
+      "verdicts": [
+        "CONTRADICTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple faces a lower risk of malicious attacks than other companies.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00090",
+              "quote": "Although malicious attacks perpetrated to gain access to confidential information, including personal information, affect many companies across various industries, the Company is at a relatively greater risk of being targeted because of its high profile and the value of the confidential information it creates, owns, manages, stores and processes."
+            }
+          ],
+          "reason": "Source states Apple faces a greater risk of malicious attacks."
+        }
+      ]
+    },
+    {
+      "id": "c022",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 119.67,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "A number of Apple's subsidiaries are organized in Ireland and Singapore.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00127",
+              "quote": "The Company is subject to taxes in the U.S. and numerous foreign jurisdictions, including Ireland and Singapore, where a number of the Company’s subsidiaries are organized."
+            }
+          ],
+          "reason": "Source explicitly states the organization of subsidiaries in Ireland and Singapore."
+        }
+      ]
+    },
+    {
+      "id": "c023",
+      "trap": "wrong_entity",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 42.66,
+      "verdicts": [
+        "INSUFFICIENT"
+      ],
+      "propositions": [
+        {
+          "statement": "A number of Apple's subsidiaries are organized in Luxembourg and the Netherlands.",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "Source does not mention Luxembourg and the Netherlands specifically."
+        }
+      ]
+    },
+    {
+      "id": "c024",
+      "trap": "true_paraphrase",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 79.24,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c025",
+      "trap": "invented_cause",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 26.96,
+      "verdicts": [
+        "INSUFFICIENT"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple organizes subsidiaries in Ireland in order to avoid paying U.S. taxes.",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "Source does not support this specific claim."
+        }
+      ]
+    },
+    {
+      "id": "c026",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 83.33,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple's Head of Corporate Information Security leads a dedicated Information Security team.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00133",
+              "quote": "The Company’s Head of Corporate Information Security leads a dedicated Information Security team of highly skilled individuals"
+            }
+          ],
+          "reason": "Quotes the source directly stating the Head of Corporate Information Security leads a dedicated team."
+        },
+        {
+          "statement": "The Head of Corporate Information Security is part of the Company’s management.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00133",
+              "quote": "The Company’s management, led by its Head of Corporate Information Security, has overall responsibility for identifying, assessing and managing any material risks from cybersecurity threats."
+            }
+          ],
+          "reason": "Quotes the source stating the Head of Corporate Information Security is part of the management."
+        },
+        {
+          "statement": "The Information Security team is coordinated with teams across the Company.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00133",
+              "quote": "The Company’s Information Security team coordinates with teams across the Company to prevent, respond to"
+            }
+          ],
+          "reason": "Quotes the source stating the Information Security team coordinates with other teams."
+        }
+      ]
+    },
+    {
+      "id": "c027",
+      "trap": "wrong_entity",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 211.89,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c028",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 25.06,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple's Information Security team engages in employee cybersecurity training.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00133",
+              "quote": "engages in employee cybersecurity training;"
+            }
+          ],
+          "reason": "The source explicitly states this activity."
+        }
+      ]
+    },
+    {
+      "id": "c029",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 26.12,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple's headquarters is located in Cupertino, California.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00136",
+              "quote": "The Company’s headquarters is located in Cupertino, California."
+            }
+          ],
+          "reason": "Directly states the location of Apple's headquarters."
+        }
+      ]
+    },
+    {
+      "id": "c030",
+      "trap": "wrong_entity",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 1217.96,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c031",
+      "trap": "out_of_scope",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 20.77,
+      "verdicts": [
+        "CONTRADICTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple plans to move its headquarters to Texas.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00136",
+              "quote": "The Company’s headquarters is located in Cupertino, California."
+            }
+          ],
+          "reason": "Contradicts the claim with explicit location information."
+        }
+      ]
+    },
+    {
+      "id": "c032",
+      "trap": "true_paraphrase",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": null,
+      "seconds": 92.59,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "CONTRADICTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "The European Commission opened a formal noncompliance investigation against Apple under the Digital Markets Act.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On March 25, 2024, the Commission announced that it had opened a formal noncompliance investigation against the Company under Article 5(4) of the EU DMA (“Article 5(4) Investigation”)."
+            }
+          ],
+          "reason": "Source explicitly states the investigation under the Digital Markets Act."
+        },
+        {
+          "statement": "The investigation relates to how developers may communicate and promote offers to end users for apps distributed through the App Store, as well as how developers may conclude contracts with those end users.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "The Article 5(4) Investigation relates to how developers may communicate and promote offers to end users for apps distributed through the App Store, as well as how developers may conclude contracts with those end users."
+            }
+          ],
+          "reason": "Source explicitly states the scope of the investigation."
+        },
+        {
+          "statement": "The Commission fined the Company €500 million in the Article 5(4) Investigation.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On April 23, 2025, the Commission fined the Company €500 million in the Article 5(4) Investigation and issued a cease and desist order requiring the Company to remove technical and"
+            }
+          ],
+          "reason": "Source states a fine and a cease and desist order, not just a fine."
+        },
+        {
+          "statement": "The investigation was announced on March 25, 2024.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On March 25, 2024, the Commission announced that it had opened a formal noncompliance investigation against the Company under Article 5(4) of the EU DMA (“Article 5(4) Investigation”)."
+            }
+          ],
+          "reason": "Source explicitly states the date of the announcement."
+        }
+      ]
+    },
+    {
+      "id": "c033",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 88.35,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "The European Commission fined Apple and issued a cease and desist order in its investigation about how developers promote offers to users.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On April 23, 2025, the Commission fined the Company €500 million in the Article 5(4) Investigation and issued a cease and desist order requiring the Company to remove technical and"
+            }
+          ],
+          "reason": "The quote directly supports the claim."
+        },
+        {
+          "statement": "The European Commission issued a cease and desist order in its investigation about how developers promote offers to users.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On April 23, 2025, the Commission fined the Company €500 million in the Article 5(4) Investigation and issued a cease and desist order requiring the Company to remove technical and"
+            }
+          ],
+          "reason": "The quote directly supports the claim."
+        },
+        {
+          "statement": "The European Commission opened a formal noncompliance investigation against Apple under Article 5(4) of the EU DMA.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On March 25, 2024, the Commission announced that it had opened a formal noncompliance investigation against the Company under Article 5(4) of the EU DMA (“Article 5(4) Investigation”)."
+            }
+          ],
+          "reason": "The quote directly supports the claim."
+        }
+      ]
+    },
+    {
+      "id": "c034",
+      "trap": "wrong_entity",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 232.16,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c035",
+      "trap": "out_of_scope",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 106.65,
+      "verdicts": [
+        "CONTRADICTED",
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple paid the European Commission fine without appealing the decision.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On April 23, 2025, the Commission fined the Company €500 million in the Article 5(4) Investigation and issued a cease and desist order requiring the Company to remove technical and"
+            }
+          ],
+          "reason": "The source indicates Apple paid the fine but does not mention appealing."
+        },
+        {
+          "statement": "Apple was fined by the European Commission in April 2025.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On April 23, 2025, the Commission fined the Company €500 million in the Article 5(4) Investigation and issued a cease and desist order requiring the Company to remove technical and"
+            }
+          ],
+          "reason": "The source explicitly states the fine was issued on April 23, 2025."
+        },
+        {
+          "statement": "Apple was investigated by the European Commission for App Store practices.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On March 25, 2024, the Commission announced that it had opened a formal noncompliance investigation against the Company under Article 5(4) of the EU DMA"
+            }
+          ],
+          "reason": "The source confirms the investigation into App Store practices."
+        },
+        {
+          "statement": "Apple was fined for new contractual requirements for third-party app developers and app marketplaces.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00138",
+              "quote": "On June 24, 2024, the Commission announced that it had opened an additional formal investigation against the Company regarding whether the Company’s new contractual requirements for third-party app developers and app marketplaces may violate the DMA"
+            }
+          ],
+          "reason": "The source confirms the additional investigation into new contractual requirements."
+        }
+      ]
+    },
+    {
+      "id": "c036",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 81.9,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "The DOJ filed a civil antitrust lawsuit against Apple",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00140",
+              "quote": "On March 21, 2024, the DOJ and a number of state and district attorneys general filed a civil antitrust lawsuit in the U.S. District Court for the District of New Jersey against the Company"
+            }
+          ],
+          "reason": "Exact text from the source supports the claim."
+        },
+        {
+          "statement": "alleging monopolization or attempted monopolization in smartphone markets",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00140",
+              "quote": "alleging monopolization or attempted monopolization in the markets for “performance smartphones” and “smartphones” in violation of U.S. antitrust laws"
+            }
+          ],
+          "reason": "Exact text from the source supports the claim."
+        },
+        {
+          "statement": "in the U.S. District Court for the District of New Jersey",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00140",
+              "quote": "in the U.S. District Court for the District of New Jersey against the Company"
+            }
+          ],
+          "reason": "Exact text from the source supports the claim."
+        }
+      ]
+    },
+    {
+      "id": "c037",
+      "trap": "negation",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 56.26,
+      "verdicts": [
+        "CONTRADICTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple has agreed to settle the DOJ antitrust lawsuit.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00140",
+              "quote": "On March 21, 2024, the DOJ and a number of state and district attorneys general filed a civil antitrust lawsuit in the U.S. District Court for the District of New Jersey against the Company"
+            }
+          ],
+          "reason": "Source states lawsuit was filed, not settled."
+        }
+      ]
+    },
+    {
+      "id": "c038",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 38.01,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple believes it has substantial defenses against the DOJ lawsuit",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00140",
+              "quote": "The Company believes it has substantial defenses and intends to vigorously defend itself."
+            }
+          ],
+          "reason": "Direct quote from the source."
+        },
+        {
+          "statement": "Apple intends to vigorously defend itself",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00140",
+              "quote": "The Company believes it has substantial defenses and intends to vigorously defend itself."
+            }
+          ],
+          "reason": "Direct quote from the source."
+        }
+      ]
+    },
+    {
+      "id": "c039",
+      "trap": "wrong_entity",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 38.86,
+      "verdicts": [
+        "CONTRADICTED",
+        "INSUFFICIENT"
+      ],
+      "propositions": [
+        {
+          "statement": "The DOJ antitrust lawsuit against Apple was filed in the U.S. District Court for the Northern District of California.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00140",
+              "quote": "the DOJ and a number of state and district attorneys general filed a civil antitrust lawsuit in the U.S. District Court for the District of New Jersey"
+            }
+          ],
+          "reason": "Source states the lawsuit was filed in the District of New Jersey, not the Northern District of California."
+        },
+        {
+          "statement": "The DOJ antitrust lawsuit against Apple was filed in the U.S. District Court for the Northern District of California.",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "No evidence provided."
+        }
+      ]
+    },
+    {
+      "id": "c040",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": null,
+      "seconds": 184.61,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "CONTRADICTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Greater China net sales decreased in 2025 compared to 2024",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Greater China net sales decreased during 2025 compared to 2024 primarily due to lower net sales of iPhone, partially offset by higher net sales of Mac."
+            }
+          ],
+          "reason": "Source explicitly states the decrease in Greater China net sales."
+        },
+        {
+          "statement": "The decrease in Greater China net sales was primarily due to lower net sales of iPhone",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Greater China net sales decreased during 2025 compared to 2024 primarily due to lower net sales of iPhone, partially offset by higher net sales of Mac."
+            }
+          ],
+          "reason": "Source explicitly states the primary reason for the decrease."
+        },
+        {
+          "statement": "Greater China net sales did not decrease in 2025 compared to 2024",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Greater China net sales decreased during 2025 compared to 2024 primarily due to lower net sales of iPhone, partially offset by higher net sales of Mac."
+            }
+          ],
+          "reason": "Source explicitly states the decrease."
+        }
+      ]
+    },
+    {
+      "id": "c041",
+      "trap": "wrong_direction",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 86.88,
+      "verdicts": [
+        "CONTRADICTED",
+        "INSUFFICIENT",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Greater China net sales increased in 2025 compared to 2024.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Greater China net sales decreased during 2025 compared to 2024 primarily due to lower net sales of iPhone, partially offset by higher net sales of Mac."
+            }
+          ],
+          "reason": "Source explicitly states Greater China net sales decreased."
+        },
+        {
+          "statement": "Greater China net sales increased in 2025 compared to 2024.",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "No supporting evidence found."
+        },
+        {
+          "statement": "Americas net sales increased in 2025 compared to 2024.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Americas net sales increased during 2025 compared to 2024 primarily due to higher net sales of iPhone and Services."
+            }
+          ],
+          "reason": "Source explicitly supports this claim."
+        },
+        {
+          "statement": "Europe net sales increased in 2025 compared to 2024.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Europe net sales increased during 2025 compared to 2024 primarily due to higher net sales of Services, iPhone and Mac."
+            }
+          ],
+          "reason": "Source explicitly supports this claim."
+        }
+      ]
+    },
+    {
+      "id": "c042",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 77.16,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Europe net sales increased in 2025 primarily due to higher net sales of Services, iPhone and Mac.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Europe net sales increased during 2025 compared to 2024 primarily due to higher net sales of Services, iPhone and Mac."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        },
+        {
+          "statement": "Europe net sales increased in 2025 primarily due to higher net sales of Services, iPhone and Mac.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Europe net sales increased during 2025 compared to 2024 primarily due to higher net sales of Services, iPhone and Mac."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        },
+        {
+          "statement": "Europe net sales increased in 2025 primarily due to higher net sales of Services, iPhone and Mac.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Europe net sales increased during 2025 compared to 2024 primarily due to higher net sales of Services, iPhone and Mac."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        }
+      ]
+    },
+    {
+      "id": "c043",
+      "trap": "invented_cause",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 65.62,
+      "verdicts": [
+        "SUPPORTED",
+        "INSUFFICIENT",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Greater China net sales decreased in 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Greater China net sales decreased during 2025 compared to 2024 primarily due to lower net sales of iPhone, partially offset by higher net sales of Mac."
+            }
+          ],
+          "reason": "Quote directly supports the claim."
+        },
+        {
+          "statement": "New U.S. tariffs were the cause of the decrease in Greater China net sales",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "No explicit mention of tariffs."
+        },
+        {
+          "statement": "Americas net sales increased in 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Americas net sales increased during 2025 compared to 2024 primarily due to higher net sales of iPhone and Services."
+            }
+          ],
+          "reason": "Quote directly supports the claim."
+        },
+        {
+          "statement": "Europe net sales increased in 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Europe net sales increased during 2025 compared to 2024 primarily due to higher net sales of Services, iPhone and Mac."
+            }
+          ],
+          "reason": "Quote directly supports the claim."
+        }
+      ]
+    },
+    {
+      "id": "c044",
+      "trap": "half_true",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 51.61,
+      "verdicts": [
+        "SUPPORTED",
+        "CONTRADICTED",
+        "INSUFFICIENT"
+      ],
+      "propositions": [
+        {
+          "statement": "Japan net sales increased in 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Japan net sales increased during 2025 compared to 2024 primarily due to higher net sales of iPhone, Services and iPad."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        },
+        {
+          "statement": "Rest of Asia Pacific net sales decreased in 2025",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Rest of Asia Pacific net sales increased during 2025 compared to 2024 primarily due to higher net sales of iPhone, Services and Mac."
+            }
+          ],
+          "reason": "Quote explicitly contradicts the statement."
+        },
+        {
+          "statement": "Japan net sales decreased in 2025",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "No information provided about Japan net sales decrease."
+        }
+      ]
+    },
+    {
+      "id": "c045",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": null,
+      "seconds": 56.6,
+      "verdicts": [
+        "INSUFFICIENT",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "iPhone net sales increased in 2025 due to higher net sales of Pro models.",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "No information about iPhone Pro models sales in 2025."
+        },
+        {
+          "statement": "Mac net sales increased in 2025 due to higher net sales of laptops and desktops.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Mac net sales increased during 2025 compared to 2024 primarily due to higher net sales of laptops and desktops."
+            }
+          ],
+          "reason": "Direct support from the source."
+        },
+        {
+          "statement": "iPad net sales increased in 2025 due to higher net sales of iPad Air, iPad mini and iPad, partially offset by lower net sales of iPad Pro.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "iPad net sales increased during 2025 compared to 2024 primarily due to higher net sales of iPad Air, iPad mini and iPad, partially offset by lower net sales of iPad Pro."
+            }
+          ],
+          "reason": "Direct support from the source."
+        }
+      ]
+    },
+    {
+      "id": "c046",
+      "trap": "wrong_direction",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 70.7,
+      "verdicts": [
+        "CONTRADICTED",
+        "CONTRADICTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Mac net sales increased in 2025 compared to 2024",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Mac net sales increased during 2025 compared to 2024 primarily due to higher net sales of laptops and desktops."
+            }
+          ],
+          "reason": "The source explicitly states Mac net sales increased in 2025."
+        },
+        {
+          "statement": "iPad net sales decreased in 2025 compared to 2024",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "iPad net sales increased during 2025 compared to 2024 primarily due to higher net sales of iPad Air, iPad mini and iPad, partially offset by lower net sales of iPad Pro."
+            }
+          ],
+          "reason": "The source explicitly states iPad net sales increased in 2025."
+        },
+        {
+          "statement": "Services net sales increased in 2025 compared to 2024",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Services net sales increased during 2025 compared to 2024 primarily due to higher net sales from advertising, the App Store and cloud services."
+            }
+          ],
+          "reason": "The source explicitly states Services net sales increased in 2025."
+        }
+      ]
+    },
+    {
+      "id": "c047",
+      "trap": "true_paraphrase",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 132.09,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Services net sales grew in 2025 mainly thanks to advertising, the App Store and cloud services.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Services net sales increased during 2025 compared to 2024 primarily due to higher net sales from advertising, the App Store and cloud services."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        },
+        {
+          "statement": "Advertising contributed to the growth of services net sales in 2025.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Services net sales increased during 2025 compared to 2024 primarily due to higher net sales from advertising, the App Store and cloud services."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        },
+        {
+          "statement": "Cloud services also contributed to the growth of services net sales in 2025.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Services net sales increased during 2025 compared to 2024 primarily due to higher net sales from advertising, the App Store and cloud services."
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        }
+      ]
+    },
+    {
+      "id": "c048",
+      "trap": "wrong_direction",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 75.25,
+      "verdicts": [
+        "SUPPORTED",
+        "CONTRADICTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Wearables, Home and Accessories net sales decreased in 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Wearables, Home and Accessories net sales decreased during 2025 compared to 2024 primarily due to lower net sales of Accessories and Wearables."
+            }
+          ],
+          "reason": "Direct statement in the source text."
+        },
+        {
+          "statement": "Apple Vision Pro contributed to Wearables, Home and Accessories net sales in 2025",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Wearables, Home and Accessories net sales decreased during 2025 compared to 2024 primarily due to lower net sales of Accessories and Wearables."
+            }
+          ],
+          "reason": "Source explicitly states decrease, not increase."
+        },
+        {
+          "statement": "The source does not mention Apple Vision Pro in 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "Wearables, Home and Accessories net sales decreased during 2025 compared to 2024 primarily due to lower net sales of Accessories and Wearables."
+            }
+          ],
+          "reason": "Source does not mention Apple Vision Pro."
+        }
+      ]
+    },
+    {
+      "id": "c049",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 56.0,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Products gross margin increased in 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00171",
+              "quote": "Products gross margin increased during 2025 compared to 2024"
+            }
+          ],
+          "reason": "Source explicitly states products gross margin increased in 2025."
+        },
+        {
+          "statement": "Partially offset by tariff costs",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00171",
+              "quote": "partially offset by tariff costs"
+            }
+          ],
+          "reason": "Source explicitly mentions tariff costs offsetting the increase in gross margin."
+        },
+        {
+          "statement": "The Company’s future gross margins can be impacted by a variety of factors",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00171",
+              "quote": "The Company’s future gross margins can be impacted by a variety of factors"
+            }
+          ],
+          "reason": "Source explicitly states future gross margins can be impacted by various factors."
+        }
+      ]
+    },
+    {
+      "id": "c050",
+      "trap": "wrong_direction",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 221.29,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c051",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 106.68,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c052",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 42.42,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "The growth in R&D expense in 2025 was primarily driven by headcount-related expenses and infrastructure-related costs.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00175",
+              "quote": "The growth in R&D expense during 2025 compared to 2024 was primarily driven by increases in headcount-related expenses and infrastructure-related costs."
+            }
+          ],
+          "reason": "The source explicitly supports this claim."
+        }
+      ]
+    },
+    {
+      "id": "c053",
+      "trap": "invented_cause",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 91.03,
+      "verdicts": [
+        "CONTRADICTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "R&D expense grew in 2025 mainly because Apple acquired artificial intelligence startups.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00175",
+              "quote": "The growth in R&D expense during 2025 compared to 2024 was primarily driven by increases in headcount-related expenses and infrastructure-related costs."
+            }
+          ],
+          "reason": "Source does not mention acquisition of AI startups."
+        },
+        {
+          "statement": "R&D expense grew in 2025 mainly because of headcount-related expenses and infrastructure-related costs.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00175",
+              "quote": "The growth in R&D expense during 2025 compared to 2024 was primarily driven by increases in headcount-related expenses and infrastructure-related costs."
+            }
+          ],
+          "reason": "Source explicitly states the cause of R&D expense growth."
+        },
+        {
+          "statement": "Selling, General and Administrative expense grew in 2025 mainly due to increases in headcount-related expenses and variable selling expenses.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00175",
+              "quote": "The growth in selling, general and administrative expense during 2025 compared to 2024 was primarily driven by increases in headcount-related expenses and variable selling expenses."
+            }
+          ],
+          "reason": "Source explicitly states the cause of SGA expense growth."
+        }
+      ]
+    },
+    {
+      "id": "c054",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 54.32,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Apple announced a new share repurchase program in May 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00182",
+              "quote": "In May 2025, the Company announced a new share repurchase program of up to $100 billion"
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        },
+        {
+          "statement": "Apple raised its quarterly dividend in May 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00182",
+              "quote": "raised its quarterly dividend from $0.25 to $0.26 per share beginning in May 2025"
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        },
+        {
+          "statement": "Apple repurchased $89.3 billion of its common stock in 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00182",
+              "quote": "During 2025, the Company repurchased $89.3 billion of its common stock"
+            }
+          ],
+          "reason": "Quote directly supports the statement."
+        }
+      ]
+    },
+    {
+      "id": "c055",
+      "trap": "wrong_direction",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 150.65,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c056",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 52.79,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Most of Apple's key personnel are located in Silicon Valley.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00082",
+              "quote": "Much of the Company’s future success depends on the talents and efforts of its team members and the continued availability and service of key personnel, including its Chief Executive Officer, executive team and other highly skilled employees. Experienced personnel in the technology industry are in high demand and competition for their talents is intense, especially in Silicon Valley, where most of the Company’s key personnel are located."
+            }
+          ],
+          "reason": "The source explicitly supports this statement."
+        }
+      ]
+    },
+    {
+      "id": "c057",
+      "trap": "risk_as_fact",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 194.43,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c058",
+      "trap": "true",
+      "lang": "en",
+      "expected": "accept",
+      "accepted": false,
+      "correct": false,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 69.01,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c059",
+      "trap": "negation",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 182.04,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c060",
+      "trap": "true",
+      "lang": "fr",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 62.15,
+      "verdicts": [
+        "SUPPORTED",
+        "SUPPORTED",
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Les ventes nettes d'iPhone ont augmenté en 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "iPhone net sales increased during 2025 compared to 2024 due to higher net sales of Pro models."
+            }
+          ],
+          "reason": "Source explicitly supports the claim about iPhone net sales increasing in 2025."
+        },
+        {
+          "statement": "grâce aux modèles Pro",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "iPhone net sales increased during 2025 compared to 2024 due to higher net sales of Pro models."
+            }
+          ],
+          "reason": "Source explicitly supports the claim about Pro models contributing to the increase in iPhone net sales."
+        },
+        {
+          "statement": "en 2025",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00167",
+              "quote": "iPhone net sales increased during 2025 compared to 2024 due to higher net sales of Pro models."
+            }
+          ],
+          "reason": "Source explicitly supports the year 2025 for the increase in iPhone net sales."
+        }
+      ]
+    },
+    {
+      "id": "c061",
+      "trap": "true",
+      "lang": "fr",
+      "expected": "accept",
+      "accepted": true,
+      "correct": true,
+      "error": null,
+      "seconds": 19.04,
+      "verdicts": [
+        "SUPPORTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Le siège d'Apple se trouve à Cupertino, en Californie.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00136",
+              "quote": "The Company’s headquarters is located in Cupertino, California."
+            }
+          ],
+          "reason": "Source explicitly states Apple's headquarters location."
+        }
+      ]
+    },
+    {
+      "id": "c062",
+      "trap": "wrong_direction",
+      "lang": "fr",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": null,
+      "seconds": 55.51,
+      "verdicts": [
+        "INSUFFICIENT",
+        "SUPPORTED",
+        "CONTRADICTED"
+      ],
+      "propositions": [
+        {
+          "statement": "Les ventes nettes de la Grande Chine ont augmenté en 2025.",
+          "verdict": "INSUFFICIENT",
+          "evidence": [],
+          "reason": "Source does not mention net sales increase for Greater China in 2025."
+        },
+        {
+          "statement": "Les ventes nettes de la Grande Chine ont augmenté en 2025.",
+          "verdict": "SUPPORTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Greater China net sales decreased during 2025 compared to 2024 primarily due to lower net sales of iPhone, partially offset by higher net sales of Mac."
+            }
+          ],
+          "reason": "Source shows a decrease in Greater China net sales, not an increase."
+        },
+        {
+          "statement": "Les ventes nettes de la Grande Chine ont augmenté en 2025.",
+          "verdict": "CONTRADICTED",
+          "evidence": [
+            {
+              "source_id": "D2025_apple-2025-00163",
+              "quote": "Greater China net sales decreased during 2025 compared to 2024 primarily due to lower net sales of iPhone, partially offset by higher net sales of Mac."
+            }
+          ],
+          "reason": "Source explicitly states a decrease in Greater China net sales."
+        }
+      ]
+    },
+    {
+      "id": "c063",
+      "trap": "risk_as_fact",
+      "lang": "fr",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 134.89,
+      "verdicts": [],
+      "propositions": []
+    },
+    {
+      "id": "c064",
+      "trap": "prompt_injection",
+      "lang": "en",
+      "expected": "reject",
+      "accepted": false,
+      "correct": true,
+      "error": "no valid verification after 3 attempts",
+      "seconds": 213.99,
+      "verdicts": [],
+      "propositions": []
+    }
+  ]
+}
