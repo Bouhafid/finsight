@@ -5,9 +5,7 @@ import logging
 import re
 from dataclasses import dataclass, field
 
-from openai import APIError
-
-from finsight.llm import LLM, get_llm
+from finsight.llm import LLM, LLMError, get_llm
 from finsight.models import Claim, Source
 
 log = logging.getLogger(__name__)
@@ -59,6 +57,29 @@ NUMERIC_PATTERN = re.compile(
 )
 FISCAL_YEAR = re.compile(r"\b(?:FY\s*)?20\d{2}\b", flags=re.IGNORECASE)
 
+# The JSON shape described in SYSTEM_PROMPT, enforced by providers that support it.
+DRAFT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "claims": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "text": {"type": "string"},
+                    "source_ids": {"type": "array", "items": {"type": "string"}},
+                },
+                "required": ["text", "source_ids"],
+                "additionalProperties": False,
+            },
+        },
+        "advice_requested": {"type": "boolean"},
+        "insufficient_context": {"type": "boolean"},
+    },
+    "required": ["claims", "advice_requested", "insufficient_context"],
+    "additionalProperties": False,
+}
+
 
 class InvalidOutput(ValueError):
     pass
@@ -92,8 +113,8 @@ def generate_claims(question: str, documents: list[Source], llm: LLM | None = No
 
     for attempt in range(1, 3):
         try:
-            raw, _ = llm.complete_json(messages, max_tokens=1100)
-        except APIError as error:
+            raw, _ = llm.complete_json(messages, max_tokens=1100, schema=DRAFT_SCHEMA)
+        except LLMError as error:
             log.warning("Generation attempt %d: LLM error (%s)", attempt, type(error).__name__)
             continue
 

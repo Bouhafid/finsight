@@ -10,10 +10,8 @@ import logging
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 
-from openai import APIError, APITimeoutError
-
 from finsight.config import VERIFY_WORKERS
-from finsight.llm import LLM, get_llm
+from finsight.llm import LLM, LLMError, LLMTimeout, get_llm
 from finsight.models import Claim, Quote, Source
 
 log = logging.getLogger(__name__)
@@ -68,6 +66,40 @@ Keep the output short:
 INSUFFICIENT may have an empty evidence array.
 Use the original statement's language.
 """
+
+# The JSON shape described in SYSTEM_PROMPT, enforced by providers that support it.
+VERDICT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "atomic_claims": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "statement": {"type": "string"},
+                    "verdict": {"type": "string", "enum": sorted(VERDICTS)},
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "source_id": {"type": "string"},
+                                "quote": {"type": "string"},
+                            },
+                            "required": ["source_id", "quote"],
+                            "additionalProperties": False,
+                        },
+                    },
+                    "reason": {"type": "string"},
+                },
+                "required": ["statement", "verdict", "evidence", "reason"],
+                "additionalProperties": False,
+            },
+        }
+    },
+    "required": ["atomic_claims"],
+    "additionalProperties": False,
+}
 
 # 10-K filings use typography that models rarely reproduce exactly.
 TYPOGRAPHY = str.maketrans(
@@ -170,11 +202,11 @@ def verify_claim(claim: str, evidence: dict[str, Source], llm: LLM | None = None
 
     for attempt in range(1, 4):
         try:
-            raw, finish_reason = llm.complete_json(messages, max_tokens=900)
-        except APITimeoutError as error:
+            raw, finish_reason = llm.complete_json(messages, max_tokens=900, schema=VERDICT_SCHEMA)
+        except LLMTimeout as error:
             # The same request would take just as long again.
             raise VerificationError("LLM timed out") from error
-        except APIError as error:
+        except LLMError as error:
             log.warning("Verification attempt %d: LLM error (%s)", attempt, type(error).__name__)
             continue
 

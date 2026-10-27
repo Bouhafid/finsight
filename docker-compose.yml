@@ -57,6 +57,10 @@ services:
       # Ollama runs on the host machine, outside the container.
       OLLAMA_BASE_URL: http://host.docker.internal:11434/v1/
       OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:3b}
+      AWS_REGION: ${AWS_REGION:-}
+      AWS_BEARER_TOKEN_BEDROCK: ${AWS_BEARER_TOKEN_BEDROCK:-}
+      BEDROCK_MODEL: ${BEDROCK_MODEL:-anthropic.claude-haiku-5-5}
+      LLM_EFFORT: ${LLM_EFFORT:-medium}
       AZURE_OPENAI_BASE_URL: ${AZURE_OPENAI_BASE_URL:-}
       AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
       AZURE_OPENAI_DEPLOYMENT: ${AZURE_OPENAI_DEPLOYMENT:-}

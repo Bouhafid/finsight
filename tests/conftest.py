@@ -12,7 +12,7 @@ class FakeLLM:
         self.responses = list(responses)
         self.calls = []
 
-    def complete_json(self, messages, max_tokens):
+    def complete_json(self, messages, max_tokens, schema=None):
         self.calls.append(list(messages))
         response = self.responses.pop(0)
         if isinstance(response, tuple):
