@@ -276,6 +276,9 @@ VARIANTS: dict[str, Callable[[], Retriever]] = {
     "dense-e5-small": lambda: DenseRetriever(E5_SMALL),
     "hybrid-e5-small": lambda: HybridRetriever(DenseRetriever(E5_SMALL), BM25Retriever()),
     "dense-e5-small+rerank": lambda: RerankRetriever(DenseRetriever(E5_SMALL)),
+    "hybrid-e5-small+rerank": lambda: RerankRetriever(
+        HybridRetriever(DenseRetriever(E5_SMALL), BM25Retriever())
+    ),
     "dense-e5-small+rerank-mini": lambda: RerankRetriever(DenseRetriever(E5_SMALL), RERANKER_MINI),
 }
 
