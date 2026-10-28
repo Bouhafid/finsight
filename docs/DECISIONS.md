@@ -145,6 +145,18 @@ prompt…
 
 ## 2. Journal des décisions
 
+### 2026-10-28 — README
+- **Quoi** : `README.md` (nouveau).
+- **Pourquoi** : la page d'accueil du dépôt doit permettre de comprendre le projet en deux
+  minutes : le problème, l'approche, un exemple réel, les résultats et comment le lancer.
+  `pyproject.toml` déclarait déjà ce fichier, qui manquait.
+- **Comment** : un exemple de réponse tiré d'une vraie exécution de l'API (6 affirmations
+  proposées, 4 rejetées faute de citation exacte) ; schéma Mermaid, affiché directement par
+  GitHub ; résultats résumés avec un renvoi vers ce journal pour le détail ; limites écrites
+  explicitement (lenteur du LLM local, Bedrock pas encore évalué en conditions réelles).
+- **Vérification** : chiffres repris de `eval/results/` et de la section 1 ; commandes reprises
+  des sections déjà testées.
+
 ### 2026-10-28 — Résultat de la variante hybride + gros reranker, latence remesurée
 - **Quoi** : `src/finsight/evaluation.py` : variante `hybrid-e5-small+rerank` remise dans
   `VARIANTS` ; `eval/results/retrieval_hybrid-e5-small+rerank.json` ajouté ;
