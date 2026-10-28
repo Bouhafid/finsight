@@ -1,10 +1,15 @@
+import json
 from collections import Counter
+from types import SimpleNamespace
 
 import pytest
 
 from finsight.config import AVAILABLE_YEARS, ROOT
 from finsight.evaluation import (
+    BM25Retriever,
     EvalQuestion,
+    HybridRetriever,
+    RerankRetriever,
     evaluate,
     first_relevant_rank,
     is_relevant,
@@ -77,6 +82,45 @@ def test_evaluate_skips_unanswerable_and_groups_results():
     assert results["overall"]["hit@1"] == 0.5
     assert results["groups"]["lang=fr"]["hit@2"] == 0
     assert [row["id"] for row in results["questions"]] == ["hit", "miss"]
+
+
+def test_evaluate_reports_median_latency():
+    results = evaluate(lambda question, year, depth: ["tariffs"], [_question("q", ["tariffs"])])
+    assert results["latency_ms"] >= 0
+
+
+def test_bm25_ranks_exact_terms_first(tmp_path):
+    texts = [
+        "The Company sells iPhone and Mac products.",
+        "Cyberattacks and ransomware target the Company's systems.",
+        "Net sales vary with the holiday season.",
+    ]
+    lines = [json.dumps({"texte": text}) for text in texts]
+    (tmp_path / "chunks_structured_2025.jsonl").write_text("\n".join(lines), encoding="utf-8")
+
+    retriever = BM25Retriever(data_dir=tmp_path)
+    assert retriever("Why is Apple a target of cyberattacks?", 2025, 1) == [texts[1]]
+    assert len(retriever("unknown words only", 2025, 3)) == 3
+
+
+def test_hybrid_fusion_favours_passages_found_by_both():
+    def dense(question, year, depth):
+        return ["a", "shared", "b"][:depth]
+
+    def keywords(question, year, depth):
+        return ["c", "shared", "d"][:depth]
+
+    assert HybridRetriever(dense, keywords)("q", 2025, 1) == ["shared"]
+
+
+def test_rerank_reorders_the_first_stage_candidates():
+    def first_stage(question, year, depth):
+        return ["weak match", "best match", "no match"][:depth]
+
+    reranker = RerankRetriever(first_stage, candidates=3)
+    # Fake cross-encoder: the score is the position of "best" in each passage.
+    reranker._loaded = SimpleNamespace(predict=lambda pairs: [p[1].find("best") for p in pairs])
+    assert reranker("q", 2025, 2) == ["best match", "weak match"]
 
 
 @pytest.mark.skipif(not HAS_CHUNKS, reason="data/processed is not versioned")

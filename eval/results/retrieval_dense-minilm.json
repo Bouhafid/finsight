@@ -8,6 +8,7 @@
     "hit@10": 0.8837209302325582,
     "mrr": 0.6734634551495017
   },
+  "latency_ms": 14.95,
   "groups": {
     "category=accounting": {
       "n": 2,
@@ -220,347 +221,433 @@
   "questions": [
     {
       "id": "q001",
-      "rank": 5
+      "rank": 5,
+      "ms": 13.1
     },
     {
       "id": "q002",
-      "rank": 1
+      "rank": 1,
+      "ms": 13.3
     },
     {
       "id": "q003",
-      "rank": 1
+      "rank": 1,
+      "ms": 12.7
     },
     {
       "id": "q004",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.1
     },
     {
       "id": "q005",
-      "rank": null
+      "rank": null,
+      "ms": 11.3
     },
     {
       "id": "q006",
-      "rank": 4
+      "rank": 4,
+      "ms": 12.3
     },
     {
       "id": "q007",
-      "rank": 1
+      "rank": 1,
+      "ms": 12.2
     },
     {
       "id": "q008",
-      "rank": 1
+      "rank": 1,
+      "ms": 11.6
     },
     {
       "id": "q009",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.0
     },
     {
       "id": "q010",
-      "rank": 8
+      "rank": 8,
+      "ms": 11.1
     },
     {
       "id": "q011",
-      "rank": 5
+      "rank": 5,
+      "ms": 13.4
     },
     {
       "id": "q012",
-      "rank": 1
+      "rank": 1,
+      "ms": 15.0
     },
     {
       "id": "q013",
-      "rank": 1
+      "rank": 1,
+      "ms": 15.2
     },
     {
       "id": "q014",
-      "rank": 3
+      "rank": 3,
+      "ms": 49.9
     },
     {
       "id": "q015",
-      "rank": 1
+      "rank": 1,
+      "ms": 71.2
     },
     {
       "id": "q016",
-      "rank": 2
+      "rank": 2,
+      "ms": 38.1
     },
     {
       "id": "q017",
-      "rank": 1
+      "rank": 1,
+      "ms": 29.4
     },
     {
       "id": "q018",
-      "rank": 3
+      "rank": 3,
+      "ms": 16.6
     },
     {
       "id": "q019",
-      "rank": 3
+      "rank": 3,
+      "ms": 14.2
     },
     {
       "id": "q020",
-      "rank": 3
+      "rank": 3,
+      "ms": 14.8
     },
     {
       "id": "q021",
-      "rank": 1
+      "rank": 1,
+      "ms": 13.4
     },
     {
       "id": "q022",
-      "rank": 2
+      "rank": 2,
+      "ms": 13.2
     },
     {
       "id": "q023",
-      "rank": 2
+      "rank": 2,
+      "ms": 11.9
     },
     {
       "id": "q024",
-      "rank": null
+      "rank": null,
+      "ms": 12.0
     },
     {
       "id": "q025",
-      "rank": 1
+      "rank": 1,
+      "ms": 12.7
     },
     {
       "id": "q026",
-      "rank": 1
+      "rank": 1,
+      "ms": 12.5
     },
     {
       "id": "q027",
-      "rank": 1
+      "rank": 1,
+      "ms": 12.0
     },
     {
       "id": "q028",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.4
     },
     {
       "id": "q029",
-      "rank": 1
+      "rank": 1,
+      "ms": 13.9
     },
     {
       "id": "q030",
-      "rank": 1
+      "rank": 1,
+      "ms": 13.3
     },
     {
       "id": "q031",
-      "rank": 1
+      "rank": 1,
+      "ms": 13.6
     },
     {
       "id": "q032",
-      "rank": 2
+      "rank": 2,
+      "ms": 13.7
     },
     {
       "id": "q033",
-      "rank": 2
+      "rank": 2,
+      "ms": 13.4
     },
     {
       "id": "q034",
-      "rank": 1
+      "rank": 1,
+      "ms": 15.8
     },
     {
       "id": "q035",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.8
     },
     {
       "id": "q036",
-      "rank": 1
+      "rank": 1,
+      "ms": 13.9
     },
     {
       "id": "q037",
-      "rank": 1
+      "rank": 1,
+      "ms": 13.2
     },
     {
       "id": "q038",
-      "rank": null
+      "rank": null,
+      "ms": 14.1
     },
     {
       "id": "q039",
-      "rank": 1
+      "rank": 1,
+      "ms": 12.7
     },
     {
       "id": "q040",
-      "rank": 2
+      "rank": 2,
+      "ms": 12.9
     },
     {
       "id": "q041",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.2
     },
     {
       "id": "q042",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.7
     },
     {
       "id": "q043",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.5
     },
     {
       "id": "q044",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.4
     },
     {
       "id": "q045",
-      "rank": 2
+      "rank": 2,
+      "ms": 18.9
     },
     {
       "id": "q046",
-      "rank": 1
+      "rank": 1,
+      "ms": 17.9
     },
     {
       "id": "q047",
-      "rank": 2
+      "rank": 2,
+      "ms": 17.6
     },
     {
       "id": "q048",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.9
     },
     {
       "id": "q049",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.3
     },
     {
       "id": "q050",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.1
     },
     {
       "id": "q051",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.7
     },
     {
       "id": "q052",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.2
     },
     {
       "id": "q053",
-      "rank": 2
+      "rank": 2,
+      "ms": 15.2
     },
     {
       "id": "q054",
-      "rank": 4
+      "rank": 4,
+      "ms": 18.6
     },
     {
       "id": "q055",
-      "rank": 1
+      "rank": 1,
+      "ms": 15.1
     },
     {
       "id": "q056",
-      "rank": 1
+      "rank": 1,
+      "ms": 17.2
     },
     {
       "id": "q057",
-      "rank": 1
+      "rank": 1,
+      "ms": 15.9
     },
     {
       "id": "q058",
-      "rank": 1
+      "rank": 1,
+      "ms": 13.8
     },
     {
       "id": "q059",
-      "rank": 4
+      "rank": 4,
+      "ms": 17.2
     },
     {
       "id": "q060",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.5
     },
     {
       "id": "q061",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.0
     },
     {
       "id": "q062",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.0
     },
     {
       "id": "q063",
-      "rank": 2
+      "rank": 2,
+      "ms": 16.9
     },
     {
       "id": "q064",
-      "rank": 5
+      "rank": 5,
+      "ms": 14.1
     },
     {
       "id": "q065",
-      "rank": 1
+      "rank": 1,
+      "ms": 11.8
     },
     {
       "id": "q066",
-      "rank": 1
+      "rank": 1,
+      "ms": 11.2
     },
     {
       "id": "q067",
-      "rank": 3
+      "rank": 3,
+      "ms": 11.9
     },
     {
       "id": "q068",
-      "rank": 1
+      "rank": 1,
+      "ms": 10.9
     },
     {
       "id": "q069",
-      "rank": 2
+      "rank": 2,
+      "ms": 15.5
     },
     {
       "id": "q070",
-      "rank": 1
+      "rank": 1,
+      "ms": 16.7
     },
     {
       "id": "q071",
-      "rank": 1
+      "rank": 1,
+      "ms": 14.5
     },
     {
       "id": "q101",
-      "rank": 1
+      "rank": 1,
+      "ms": 15.1
     },
     {
       "id": "q102",
-      "rank": 5
+      "rank": 5,
+      "ms": 19.0
     },
     {
       "id": "q103",
-      "rank": null
+      "rank": null,
+      "ms": 17.6
     },
     {
       "id": "q104",
-      "rank": null
+      "rank": null,
+      "ms": 18.4
     },
     {
       "id": "q105",
-      "rank": 7
+      "rank": 7,
+      "ms": 18.8
     },
     {
       "id": "q106",
-      "rank": null
+      "rank": null,
+      "ms": 20.2
     },
     {
       "id": "q107",
-      "rank": 10
+      "rank": 10,
+      "ms": 26.0
     },
     {
       "id": "q108",
-      "rank": 1
+      "rank": 1,
+      "ms": 20.8
     },
     {
       "id": "q109",
-      "rank": 3
+      "rank": 3,
+      "ms": 18.8
     },
     {
       "id": "q110",
-      "rank": 1
+      "rank": 1,
+      "ms": 20.5
     },
     {
       "id": "q111",
-      "rank": 2
+      "rank": 2,
+      "ms": 18.2
     },
     {
       "id": "q112",
-      "rank": null
+      "rank": null,
+      "ms": 18.8
     },
     {
       "id": "q113",
-      "rank": null
+      "rank": null,
+      "ms": 16.7
     },
     {
       "id": "q114",
-      "rank": null
+      "rank": null,
+      "ms": 21.1
     },
     {
       "id": "q115",
-      "rank": null
+      "rank": null,
+      "ms": 16.9
     }
   ]
 }
